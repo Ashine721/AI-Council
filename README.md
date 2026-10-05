@@ -23,6 +23,29 @@ The core innovation of this system lies in its **Information Segmentation Design
 *   **Week 15 Note**: The progress for Week 15 was primarily executed and completed on LLaMA Factory. As the source code was not downloaded, there is no corresponding code file provided for this week.
 *   **`final_report`**: Also corresponds to the code in `week_14.ipynb`.
 
+## Evaluation Prompts
+| 測試項目 | 測試語句 (Test sentence) |
+| :--- | :--- |
+| 正常流量測試 測試 1 — BENIGN | Analyze the following network traffic and classify it: Flow Duration: 119261000, Total Fwd Packets: 20, Total Backward Packets: 18, Flow Bytes/s: 1024.5, Flow Packets/s: 45.2, SYN Flag Count: 1, ACK Flag Count: 35 |
+| 攻擊流量測試 測試 2 — DDoS | Analyze the following network traffic and classify it: Flow Duration: 2341, Total Fwd Packets: 1500, Total Backward Packets: 0, Flow Bytes/s: 985432.1, Flow Packets/s: 6408.4, SYN Flag Count: 1500, ACK Flag Count: 0 |
+| 測試 3 — PortScan | Analyze the following network traffic and classify it: Flow Duration: 51000, Total Fwd Packets: 1, Total Backward Packets: 0, Flow Bytes/s: 78.4, Flow Packets/s: 19.6, SYN Flag Count: 1, RST Flag Count: 1, Destination Port: 445 |
+| 測試 4 — Brute Force (FTP) | Analyze the following network traffic and classify it: Flow Duration: 302000, Total Fwd Packets: 8, Total Backward Packets: 6, Flow Bytes/s: 231.5, Flow Packets/s: 12.3, SYN Flag Count: 1, ACK Flag Count: 13, Destination Port: 21 |
+| 測試 5 — Bot | Analyze the following network traffic and classify it: Flow Duration: 7200000000, Total Fwd Packets: 3, Total Backward Packets: 2, Flow Bytes/s: 0.8, Flow Packets/s: 0.0007, SYN Flag Count: 1, ACK Flag Count: 4, Destination Port: 6667 |
+
+## Results
+
+| 測試 | 正確標籤 | 模型預測 | 結果 |
+| :--- | :--- | :--- | :--- |
+| 測試 1 | BENIGN | BENIGN | ✅ 完全正確 |
+| 測試 2 | DDoS | BENIGN | ❌ 完全錯誤 |
+| 測試 3 | PortScan | Web Attack ◆ Sql Injection | ❌ 大方向錯誤 |
+| 測試 4 | Brute Force (FTP) | Web Attack ◆ XSS | ❌ 大方向錯誤 |
+| 測試 5 | Bot | BENIGN | ❌ 完全錯誤 |
+
+## Future Work
+
+Due to the limited scale of the data in this experiment, the hyperparameters during the fine-tuning process were not systematically verified and optimized. Future work plans to expand the size of the training dataset to investigate the correlation between different fine-tuning parameter settings and the capabilities of the AI Council. Concurrently, we will dedicate efforts to introducing or establishing a standardized and objective evaluation benchmark to ensure the rigor of the experimental results.
+
 ## 🔗 Resources & Access
 ## 📊 Datasets
 * [/CIC-IDS2017](放入你的連結)
